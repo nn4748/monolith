@@ -165,7 +165,7 @@ details p{color:var(--ash);margin:12px 0 0;max-width:62ch}
 .msg{margin-top:14px;font-size:14px;color:var(--ash);min-height:22px}
 footer{border-top:1px solid var(--graphite);padding-block:40px 30px;overflow:hidden}
 footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
-.giant{font-size:clamp(70px,21vw,320px);font-weight:600;letter-spacing:-.07em;line-height:.8;margin-top:50px;color:transparent;-webkit-text-stroke:1px var(--steel);user-select:none;white-space:nowrap}
+.giant{font-size:clamp(48px,17.5vw,300px);font-weight:600;letter-spacing:-.07em;line-height:.8;margin-top:50px;color:transparent;-webkit-text-stroke:1px var(--steel);user-select:none;white-space:nowrap}
 
 /* loader */
 .loader{position:fixed;inset:0;z-index:100;background:var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding-block:max(24px,env(safe-area-inset-top,0px)) 24px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));animation:lift 1s cubic-bezier(.8,0,.2,1) 1.4s forwards;pointer-events:none}
@@ -383,7 +383,7 @@ document.querySelectorAll("[data-count]").forEach(el => { el.innerHTML = el.data
 $("#joinForm").addEventListener("submit", async e => {
   e.preventDefault();
   const msg = $("#joinMsg");
-  if (!CONFIG.formEndpoint) { msg.textContent = "Email capture isn't connected yet. Add a Formspree URL to CONFIG.formEndpoint."; return; }
+  if (!CONFIG.formEndpoint) { msg.textContent = "Early access opens soon. Check back in a few days."; return; }
   msg.textContent = "Sending…";
   try {
     const r = await fetch(CONFIG.formEndpoint, { method: "POST", headers: { Accept: "application/json", "Content-Type": "application/json" }, body: JSON.stringify({ email: $("#email").value }) });
