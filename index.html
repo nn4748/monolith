@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Monolith turns one sentence into a launch-ready website. Made by Nourah Aleissa.">
+<title>Monolith</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+</head>
+<body>
+<style>
+/* Layout: a fixed field of 14k particles that morphs shape per section; content scrolls over it in a strict monochrome grid. */
+:root{
+  --ink:#050505; --coal:#0d0d0e; --graphite:#1a1a1c; --steel:#3a3a3e; --ash:#8b8b90; --paper:#f4f4f2;
+  --f-display:"Instrument Serif","Times New Roman",serif;
+  --f-body:"Geist",ui-sans-serif,system-ui,sans-serif;
+  --f-mono:"Geist Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+.page{position:relative;z-index:1}
+.wrap{max-width:1240px;margin-inline:auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:1px solid var(--paper);outline-offset:4px}
+::selection{background:var(--paper);color:var(--ink)}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ash)}
+.serif{font-family:var(--f-display);font-weight:400}
+.tab{font-variant-numeric:tabular-nums}
+
+/* nav */
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;border-bottom:1px solid color-mix(in srgb,var(--paper) 8%,transparent);backdrop-filter:blur(18px) saturate(1.2);background:color-mix(in srgb,var(--ink) 55%,transparent)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:14px}
+.mark{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.32em;font-size:13px}
+.mark b{width:10px;height:22px;background:var(--paper);display:block}
+.nl{display:flex;gap:30px;font-size:14px;color:var(--ash)}
+.nl a:hover{color:var(--paper)}
+@media (max-width:760px){.nl{display:none}}
+.btn{display:inline-flex;align-items:center;gap:10px;font:500 14px var(--f-body);padding:11px 20px;border-radius:999px;background:var(--paper);color:var(--ink);border:1px solid var(--paper);cursor:pointer;transition:transform .25s,background .25s,color .25s}
+.btn:hover{transform:translateY(-1px)}
+.btn .arr{transition:transform .25s}
+.btn:hover .arr{transform:translateX(3px)}
+.btn.line{background:transparent;color:var(--paper);border-color:var(--steel)}
+.btn.line:hover{border-color:var(--paper)}
+
+/* hero */
+.hero{padding-block:clamp(90px,16vh,170px) 120px}
+.hero .tag{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--steel);border-radius:999px;padding:6px 14px 6px 8px;background:color-mix(in srgb,var(--ink) 60%,transparent)}
+.hero .tag i{width:7px;height:7px;border-radius:50%;background:var(--paper);box-shadow:0 0 0 4px color-mix(in srgb,var(--paper) 15%,transparent);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px transparent}}
+.hero h1{font-family:var(--f-body);font-weight:500;font-size:clamp(46px,9.4vw,138px);line-height:.92;letter-spacing:-.045em;margin:34px 0 0;text-wrap:balance;max-width:11ch}
+.hero h1 .serif{font-style:italic;letter-spacing:-.02em;font-size:1.08em;color:var(--paper)}
+.hero h1 .dim{color:var(--ash)}
+.hero-foot{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:30px;margin-top:56px}
+.hero-foot p{max-width:40ch;margin:0;color:var(--ash);font-size:18px}
+.hero-foot p b{color:var(--paper);font-weight:500}
+.ctas{display:flex;gap:10px;flex-wrap:wrap}
+.split .ch{display:inline-block;transform:translateY(105%);opacity:0;animation:rise .9s cubic-bezier(.2,.8,.2,1) forwards}
+.split .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em}
+@keyframes rise{to{transform:none;opacity:1}}
+
+/* sections */
+section{padding-block:120px;border-top:1px solid color-mix(in srgb,var(--paper) 7%,transparent)}
+.sh{display:grid;grid-template-columns:200px 1fr;gap:30px;margin-bottom:60px}
+.sh h2{font-weight:500;font-size:clamp(34px,5vw,68px);line-height:1;letter-spacing:-.035em;margin:0;text-wrap:balance;max-width:16ch}
+.sh h2 .serif{font-style:italic;letter-spacing:-.01em}
+.sh p{color:var(--ash);max-width:52ch;margin:18px 0 0;font-size:17px}
+@media (max-width:760px){.sh{grid-template-columns:1fr;gap:14px}}
+
+/* generator */
+.gen{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:20px}
+@media (max-width:960px){.gen{grid-template-columns:1fr}}
+.box{border:1px solid var(--graphite);border-radius:18px;background:color-mix(in srgb,var(--coal) 82%,transparent);backdrop-filter:blur(10px);min-width:0}
+.prompt{padding:26px;display:flex;flex-direction:column;gap:18px}
+.prompt label{display:block}
+textarea{width:100%;min-height:130px;resize:vertical;font:400 20px/1.45 var(--f-body);letter-spacing:-.01em;color:var(--paper);background:transparent;border:0;outline:0;padding:0}
+textarea::placeholder{color:var(--steel)}
+.ex{display:flex;flex-wrap:wrap;gap:8px}
+.ex button{font:400 13px var(--f-body);color:var(--ash);background:transparent;border:1px solid var(--graphite);border-radius:999px;padding:7px 12px;cursor:pointer;transition:.2s}
+.ex button:hover{color:var(--paper);border-color:var(--steel)}
+.prompt .row{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--graphite);padding-top:18px;margin-top:auto}
+.log{font-family:var(--f-mono);font-size:12px;color:var(--ash);line-height:1.9;min-height:92px}
+.log div::before{content:"› ";color:var(--steel)}
+.log .ok{color:var(--paper)}
+
+.browser{overflow:hidden;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid var(--graphite)}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:var(--graphite)}
+.url{flex:1;min-width:0;font-family:var(--f-mono);font-size:12px;color:var(--ash);background:var(--ink);border-radius:8px;padding:6px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.site{padding:clamp(22px,4vw,40px);display:grid;gap:26px;background:var(--pal-bg,var(--ink));color:var(--pal-fg,var(--paper));transition:background .6s,color .6s;min-height:420px}
+.site .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+.site .top span:last-child{opacity:.55;letter-spacing:.1em}
+.site h3{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,4.6vw,58px);line-height:1;letter-spacing:-.02em;margin:0;min-height:2em}
+.site h3 .cur{display:inline-block;width:.06em;height:.8em;background:currentColor;margin-left:4px;animation:blink 1s steps(1) infinite;vertical-align:baseline}
+@keyframes blink{50%{opacity:0}}
+.site .sub{opacity:.65;max-width:44ch;margin:0;font-size:15px}
+.site .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:520px){.site .cols{grid-template-columns:1fr}}
+.site .cols div{border:1px solid color-mix(in srgb,currentColor 18%,transparent);border-radius:10px;padding:14px;font-size:13px;opacity:0;transform:translateY(8px);transition:.5s}
+.site .cols div.in{opacity:1;transform:none}
+.site .cols b{display:block;font-weight:500;margin-bottom:4px}
+.site .cols span{opacity:.6}
+.spec{display:flex;flex-wrap:wrap;gap:18px;align-items:center;border-top:1px solid var(--graphite);padding:14px 16px;font-family:var(--f-mono);font-size:11px;color:var(--ash);text-transform:uppercase;letter-spacing:.06em}
+.sw{display:flex;gap:4px}.sw i{width:16px;height:16px;border-radius:4px;border:1px solid var(--steel)}
+
+/* marquee */
+.marq{overflow:hidden;border-block:1px solid var(--graphite);padding-block:26px;background:color-mix(in srgb,var(--ink) 70%,transparent)}
+.marq .track{display:flex;gap:56px;width:max-content;animation:slide 40s linear infinite;font-size:clamp(28px,4vw,52px);letter-spacing:-.03em;white-space:nowrap}
+.marq .track span:nth-child(even){font-family:var(--f-display);font-style:italic;color:var(--ash)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.cell{grid-column:span 2;padding:28px;border:1px solid var(--graphite);border-radius:18px;background:color-mix(in srgb,var(--coal) 80%,transparent);backdrop-filter:blur(8px);position:relative;overflow:hidden;min-height:230px;display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.cell.w3{grid-column:span 3}
+.cell::before{content:"";position:absolute;inset:0;background:radial-gradient(300px circle at var(--x,50%) var(--y,50%),color-mix(in srgb,var(--paper) 9%,transparent),transparent 65%);opacity:0;transition:opacity .3s}
+.cell:hover::before{opacity:1}
+.cell h3{font-weight:500;font-size:22px;letter-spacing:-.02em;margin:0 0 8px}
+.cell p{margin:0;color:var(--ash);font-size:15px;max-width:40ch}
+.big{font-size:clamp(56px,7vw,96px);letter-spacing:-.05em;line-height:.9;font-weight:500}
+.big .serif{font-style:italic}
+@media (max-width:900px){.cell,.cell.w3{grid-column:span 3}}
+@media (max-width:600px){.cell,.cell.w3{grid-column:span 6}}
+
+/* pricing */
+.toggle{display:inline-flex;border:1px solid var(--graphite);border-radius:999px;padding:4px;margin-bottom:28px;background:var(--coal)}
+.toggle button{font:500 13px var(--f-body);color:var(--ash);background:transparent;border:0;border-radius:999px;padding:8px 16px;cursor:pointer}
+.toggle button[aria-pressed=true]{background:var(--paper);color:var(--ink)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:900px){.plans{grid-template-columns:1fr}}
+.plan{padding:30px;border:1px solid var(--graphite);border-radius:18px;background:color-mix(in srgb,var(--coal) 85%,transparent);display:flex;flex-direction:column;gap:22px}
+.plan.hot{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.plan.hot .mono,.plan.hot li{color:#55555a}
+.plan.hot .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.plan .p{font-size:64px;letter-spacing:-.05em;line-height:1;font-weight:500}
+.plan .p small{font-size:15px;letter-spacing:0;color:var(--ash);font-weight:400}
+.plan.hot .p small{color:#55555a}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:15px;color:var(--ash);flex:1}
+.plan li::before{content:"—";margin-right:10px}
+.plan .btn{justify-content:center}
+
+/* faq */
+.faq{max-width:860px;margin-left:auto}
+details{border-bottom:1px solid var(--graphite);padding-block:22px}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;font-size:20px;letter-spacing:-.02em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--f-mono);color:var(--ash);transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--ash);margin:12px 0 0;max-width:62ch}
+
+/* final */
+.final{text-align:left;padding-block:160px 100px}
+.final h2{font-size:clamp(48px,9vw,140px);line-height:.9;letter-spacing:-.05em;font-weight:500;margin:0;max-width:12ch}
+.final h2 .serif{font-style:italic}
+.join{display:flex;gap:8px;max-width:520px;margin-top:44px;border:1px solid var(--steel);border-radius:999px;padding:6px;background:color-mix(in srgb,var(--ink) 70%,transparent)}
+.join input{flex:1;min-width:0;font:400 15px var(--f-body);color:var(--paper);background:transparent;border:0;outline:0;padding:0 16px}
+.join input::placeholder{color:var(--steel)}
+.msg{margin-top:14px;font-size:14px;color:var(--ash);min-height:22px}
+footer{border-top:1px solid var(--graphite);padding-block:40px 30px;overflow:hidden}
+footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.giant{font-size:clamp(70px,21vw,320px);font-weight:600;letter-spacing:-.07em;line-height:.8;margin-top:50px;color:transparent;-webkit-text-stroke:1px var(--steel);user-select:none;white-space:nowrap}
+
+/* loader */
+.loader{position:fixed;inset:0;z-index:100;background:var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding-block:max(24px,env(safe-area-inset-top,0px)) 24px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));animation:lift 1s cubic-bezier(.8,0,.2,1) 1.4s forwards;pointer-events:none}
+.loader .ld{font-size:clamp(90px,22vw,300px);font-weight:500;letter-spacing:-.07em;line-height:.8;align-self:flex-end}
+.loader .bar2{height:1px;background:var(--graphite);position:relative;overflow:hidden}
+.loader .bar2::after{content:"";position:absolute;inset:0;background:var(--paper);transform-origin:left;animation:fill 1.3s cubic-bezier(.6,0,.2,1) forwards}
+@keyframes fill{from{transform:scaleX(0)}}
+@keyframes lift{to{transform:translateY(-100%)}}
+.prog{position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--paper);transform-origin:left;transform:scaleX(0)}
+
+/* full preview */
+.full{position:fixed;inset:0;z-index:80;overflow-y:auto;background:var(--pal-bg,var(--ink));color:var(--pal-fg,var(--paper));animation:open .6s cubic-bezier(.2,.8,.2,1)}
+@keyframes open{from{clip-path:inset(40% 30% 40% 30% round 18px);opacity:.4}to{clip-path:inset(0);opacity:1}}
+.full .in{max-width:1200px;margin-inline:auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));padding-block:max(24px,env(safe-area-inset-top,0px)) 60px;display:grid;gap:clamp(50px,9vw,110px)}
+.full header{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:13px;letter-spacing:.24em;text-transform:uppercase}
+.full .x{font:500 13px var(--f-body);letter-spacing:0;text-transform:none;color:inherit;background:transparent;border:1px solid color-mix(in srgb,currentColor 30%,transparent);border-radius:999px;padding:9px 16px;cursor:pointer}
+.full h2{font-family:var(--f-display);font-weight:400;font-size:clamp(56px,12vw,180px);line-height:.88;letter-spacing:-.03em;margin:0;max-width:10ch;text-wrap:balance}
+.full .lede{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px}
+.full .lede p{max-width:40ch;margin:0;opacity:.65;font-size:18px}
+.full .shop{font:500 15px var(--f-body);background:var(--pal-fg);color:var(--pal-bg);border:0;border-radius:999px;padding:16px 28px}
+.full .g{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:color-mix(in srgb,currentColor 15%,transparent);border:1px solid color-mix(in srgb,currentColor 15%,transparent)}
+@media (max-width:700px){.full .g{grid-template-columns:1fr}}
+.full .g div{background:var(--pal-bg);padding:30px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+.full .g b{font-family:var(--f-display);font-weight:400;font-size:34px;letter-spacing:-.01em}
+.full .g span{opacity:.6}
+.full .g i{font-style:normal;font-family:var(--f-mono);font-size:12px;opacity:.5}
+.full .ft{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:var(--f-mono);font-size:12px;opacity:.55;border-top:1px solid color-mix(in srgb,currentColor 15%,transparent);padding-top:20px}
+.bar .open{font:500 12px var(--f-body);color:var(--paper);background:transparent;border:1px solid var(--steel);border-radius:999px;padding:5px 12px;cursor:pointer;white-space:nowrap}
+.bar .open:disabled{opacity:.4;cursor:default}
+
+/* signature */
+.sig{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:12px;margin-top:28px;border-top:1px solid var(--graphite);padding-top:22px}
+.sig .by{font-family:var(--f-display);font-style:italic;font-size:clamp(28px,4vw,44px);letter-spacing:-.01em}
+.sig .by b{font-style:normal;font-family:var(--f-body);font-weight:500;letter-spacing:-.03em}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.split .ch{transform:none;opacity:1}html{scroll-behavior:auto}.loader{display:none}}
+</style>
+
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="loader" aria-hidden="true"><div class="mark"><b></b><span>MONOLITH</span></div><div><div class="ld tab" id="ld">000</div><div class="bar2"></div></div></div>
+<div class="full" id="full" hidden role="dialog" aria-modal="true" aria-label="Generated site preview"></div>
+<div class="page">
+<nav><div class="prog" id="prog"></div><div class="wrap">
+  <a class="mark" href="#top"><b></b><span id="brand">MONOLITH</span></a>
+  <div class="nl"><a href="#build">Build</a><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+  <a class="btn" href="#pricing">Start building <span class="arr">→</span></a>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <span class="tag mono"><i></i>Private beta · v1.0</span>
+  <h1 class="split" data-split>Describe it. <span class="serif">Ship</span> it. <span class="dim">Get paid.</span></h1>
+  <div class="hero-foot">
+    <p>Monolith turns one sentence into a <b>launch-ready website</b> with copy, 3D, and checkout already wired in. No templates. No designers. No waiting.</p>
+    <div class="ctas"><a class="btn" href="#build">Try it live <span class="arr">↓</span></a><a class="btn line" href="#pricing">See pricing</a></div>
+  </div>
+</div></header>
+
+<section id="build"><div class="wrap">
+  <div class="sh"><span class="mono">01 — Live engine</span><div><h2>Type a business. Watch it <span class="serif">become one.</span></h2><p>This runs right here in your browser. Write what you sell and who it's for, then press Generate.</p></div></div>
+  <div class="gen">
+    <form class="box prompt" id="genForm">
+      <label for="idea" class="mono">Your idea</label>
+      <textarea id="idea" placeholder="A specialty coffee roaster in Riyadh that ships beans nationwide…">A minimalist perfume house in Dubai selling limited-edition scents online</textarea>
+      <div class="ex" id="examples">
+        <button type="button">Boutique gym in London for busy founders</button>
+        <button type="button">AI course teaching marketers to automate</button>
+        <button type="button">Architecture photographer in Tokyo</button>
+        <button type="button">Luxury real estate agency in Miami</button>
+      </div>
+      <div class="log" id="log" aria-live="polite"></div>
+      <div class="row"><span class="mono" id="timer">Ready</span><button class="btn" type="submit" id="go">Generate <span class="arr">→</span></button></div>
+    </form>
+    <div class="box browser">
+      <div class="bar"><div class="dots"><i></i><i></i><i></i></div><div class="url" id="url">monolith.site/—</div><button type="button" class="open" id="openFull" disabled>Open full site ↗</button></div>
+      <div class="site" id="site">
+        <div class="top"><span id="sName">—</span><span id="sNav">Shop · About · Contact</span></div>
+        <h3 id="sHead"><span class="cur"></span></h3>
+        <p class="sub" id="sSub"></p>
+        <div class="cols" id="sCols"></div>
+      </div>
+      <div class="spec"><span>Palette</span><div class="sw" id="sw"></div><span id="sType">Type · —</span><span id="sScore">Conversion score · —</span></div>
+    </div>
+  </div>
+</div></section>
+
+<div class="marq" aria-hidden="true"><div class="track" id="track"></div></div>
+
+<section id="features"><div class="wrap">
+  <div class="sh"><span class="mono">02 — What you get</span><div><h2>Everything a real business needs, <span class="serif">built in.</span></h2></div></div>
+  <div class="bento">
+    <div class="cell w3"><div class="big tab" data-count="58">0<span class="serif">s</span></div><div><h3>From sentence to live site</h3><p>Average build time in beta. Copy, layout, 3D scene and checkout are generated together.</p></div></div>
+    <div class="cell w3"><div class="big">$0 <span class="serif">fees</span></div><div><h3>Payments go straight to you</h3><p>Connect Stripe once. Every sale lands in your account. We never take a cut of your revenue.</p></div></div>
+    <div class="cell"><div class="mono">3D / WebGL</div><div><h3>Scenes that stop the scroll</h3><p>Particle fields, product orbits and morphing objects, tuned to stay fast on phones.</p></div></div>
+    <div class="cell"><div class="mono">Copywriting</div><div><h3>Words that sell</h3><p>Headlines, product pages and FAQs written for your audience, in English or Arabic.</p></div></div>
+    <div class="cell"><div class="mono">Ownership</div><div><h3>Export the code</h3><p>Download clean HTML anytime. Host it on GitHub, Vercel, or your own server.</p></div></div>
+  </div>
+</div></section>
+
+<section id="pricing"><div class="wrap">
+  <div class="sh"><span class="mono">03 — Pricing</span><div><h2>One good sale <span class="serif">pays for it.</span></h2></div></div>
+  <div class="toggle" role="group" aria-label="Billing period"><button type="button" id="bm" aria-pressed="true">Monthly</button><button type="button" id="by" aria-pressed="false">Yearly · 2 months free</button></div>
+  <div class="plans">
+    <div class="plan"><span class="mono">Starter</span><div class="p tab"><span data-m="0" data-y="0">$0</span><small> / forever</small></div><ul><li>1 site on monolith.site</li><li>AI copy + layout</li><li>Basic 3D scenes</li></ul><a class="btn line" data-pay="starter" href="#join">Start free</a></div>
+    <div class="plan hot"><span class="mono">Pro · Most chosen</span><div class="p tab"><span data-m="29" data-y="24">$29</span><small> / month</small></div><ul><li>5 sites + custom domains</li><li>Stripe checkout built in</li><li>Full 3D library</li><li>Code export</li></ul><a class="btn" data-pay="pro" href="#join">Go Pro <span class="arr">→</span></a></div>
+    <div class="plan"><span class="mono">Studio</span><div class="p tab"><span data-m="99" data-y="82">$99</span><small> / month</small></div><ul><li>Unlimited sites</li><li>Client handoff + white label</li><li>Priority generation</li><li>Resell sites as your own</li></ul><a class="btn line" data-pay="studio" href="#join">Go Studio</a></div>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <div class="sh"><span class="mono">04 — Questions</span><div><h2>Asked <span class="serif">often.</span></h2></div></div>
+  <div class="faq">
+    <details open><summary>Do I need to know how to code?</summary><p>No. You describe your business, edit anything in plain language, and publish. If you do code, you can export everything.</p></details>
+    <details><summary>Who gets the money from sales?</summary><p>You do. Payments run through your own Stripe account and are paid out to your bank. Monolith only charges the plan price.</p></details>
+    <details><summary>Will the 3D slow my site down?</summary><p>Scenes are sized to the device. Phones get fewer particles, and visitors who prefer reduced motion see a still frame.</p></details>
+    <details><summary>Can I sell sites I make to clients?</summary><p>Yes, on Studio. Remove our branding, hand the site to the client, and charge whatever you like.</p></details>
+  </div>
+</div></section>
+
+<section class="final" id="join"><div class="wrap">
+  <span class="mono">05 — Early access</span>
+  <h2 style="margin-top:24px">Your next business is <span class="serif">one sentence</span> away.</h2>
+  <form class="join" id="joinForm"><input type="email" id="email" required placeholder="you@company.com" aria-label="Email address"><button class="btn" type="submit">Get access <span class="arr">→</span></button></form>
+  <div class="msg" id="joinMsg" aria-live="polite"></div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="row mono"><span>© <span id="yr"></span> Monolith Labs</span><span>Built with Claude</span><span>Privacy · Terms</span></div>
+  <div class="giant" aria-hidden="true">MONOLITH</div>
+  <div class="sig"><span class="by">Made by <b>Nourah Aleissa</b></span><span class="mono">Designed &amp; built in 2026</span></div>
+</div></footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ===== Edit these settings ===== */
+const CONFIG = {
+  brand: "MONOLITH",
+  payLinks: { starter: "", pro: "", studio: "" }, // Stripe Payment Links, e.g. https://buy.stripe.com/...
+  formEndpoint: ""                                // Formspree / Getform URL to collect emails
+};
+/* =============================== */
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = s => document.querySelector(s);
+$("#brand").textContent = CONFIG.brand;
+$("#yr").textContent = new Date().getFullYear();
+
+// Hero headline: split into animated letters
+document.querySelectorAll("[data-split]").forEach(el => {
+  let i = 0;
+  const walk = node => [...node.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(word => {
+        if (!word.trim()) { frag.append(word); return; }
+        const w = document.createElement("span"); w.className = "w";
+        [...word].forEach(c => { const s = document.createElement("span"); s.className = "ch"; s.textContent = c; s.style.animationDelay = (1500 + i++ * 28) + "ms"; w.append(s); });
+        frag.append(w);
+      });
+      n.replaceWith(frag);
+    } else walk(n);
+  });
+  walk(el);
+});
+
+// Loader counter
+(() => { const el = $("#ld"), t0 = performance.now(); const step = t => { const k = Math.min(1, (t - t0) / 1300); el.textContent = String(Math.round(100 * (1 - Math.pow(1 - k, 3)))).padStart(3, "0"); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); })();
+
+// Scroll progress
+addEventListener("scroll", () => { const h = document.documentElement; $("#prog").style.transform = `scaleX(${h.scrollTop / (h.scrollHeight - h.clientHeight || 1)})`; }, { passive: true });
+
+// Magnetic buttons
+if (!reduce) document.querySelectorAll(".btn").forEach(b => {
+  b.addEventListener("pointermove", e => { const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .22}px,${(e.clientY - r.top - r.height / 2) * .35}px)`; });
+  b.addEventListener("pointerleave", () => b.style.transform = "");
+});
+
+// Text scramble on nav links
+const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*/<>";
+document.querySelectorAll(".nl a").forEach(a => {
+  const orig = a.textContent; let id;
+  a.addEventListener("mouseenter", () => {
+    if (reduce) return; let f = 0; clearInterval(id);
+    id = setInterval(() => { a.textContent = [...orig].map((c, i) => i < f / 2 ? c : GLYPHS[Math.random() * GLYPHS.length | 0]).join(""); if (++f > orig.length * 2) { clearInterval(id); a.textContent = orig; } }, 28);
+  });
+});
+
+// Marquee
+const words = ["Landing pages", "Online stores", "Portfolios", "Waitlists", "Course sites", "Booking pages", "Product drops", "Agencies"];
+$("#track").innerHTML = [...words, ...words].map(w => `<span>${w}</span>`).join("");
+
+// Payment links
+document.querySelectorAll("[data-pay]").forEach(a => { const u = CONFIG.payLinks[a.dataset.pay]; if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener"; } });
+
+// Billing toggle
+function billing(yearly) {
+  $("#bm").setAttribute("aria-pressed", !yearly); $("#by").setAttribute("aria-pressed", yearly);
+  document.querySelectorAll("[data-m]").forEach(s => s.textContent = "$" + (yearly ? s.dataset.y : s.dataset.m));
+}
+$("#bm").onclick = () => billing(false); $("#by").onclick = () => billing(true);
+
+// Bento spotlight + counters
+document.querySelectorAll(".cell").forEach(c => c.addEventListener("pointermove", e => {
+  const r = c.getBoundingClientRect(); c.style.setProperty("--x", e.clientX - r.left + "px"); c.style.setProperty("--y", e.clientY - r.top + "px");
+}));
+const counted = new IntersectionObserver(es => es.forEach(en => {
+  if (!en.isIntersecting) return; counted.unobserve(en.target);
+  const el = en.target, end = +el.dataset.count, unit = el.querySelector(".serif").outerHTML, t0 = performance.now();
+  const step = t => { const k = reduce ? 1 : Math.min(1, (t - t0) / 1400); el.innerHTML = Math.round(end * (1 - Math.pow(1 - k, 4))) + unit; if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}), { threshold: .5 });
+document.querySelectorAll("[data-count]").forEach(el => { el.innerHTML = el.dataset.count + el.querySelector(".serif").outerHTML; counted.observe(el); });
+
+// Email capture
+$("#joinForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("#joinMsg");
+  if (!CONFIG.formEndpoint) { msg.textContent = "Email capture isn't connected yet. Add a Formspree URL to CONFIG.formEndpoint."; return; }
+  msg.textContent = "Sending…";
+  try {
+    const r = await fetch(CONFIG.formEndpoint, { method: "POST", headers: { Accept: "application/json", "Content-Type": "application/json" }, body: JSON.stringify({ email: $("#email").value }) });
+    msg.textContent = r.ok ? "You're on the list. Check your inbox." : "That didn't go through. Try again in a minute.";
+  } catch { msg.textContent = "That didn't go through. Check your connection and try again."; }
+});
+
+/* ===== Generator engine ===== */
+const KINDS = [
+  { k: /perfume|fragrance|scent|oud|عطر/i, type: "Fragrance house", names: ["Ashe", "Noir Atelier", "Basalt", "Eleven Smoke"], heads: ["Scent, made rare.", "Wear the quiet.", "Limited. Unrepeatable."], cols: [["The Collection", "Six scents, numbered bottles"], ["Discovery Set", "Try all six for $38"], ["Private Blend", "Made to your notes"]], pal: ["#0b0b0b", "#efece6"], font: "Instrument Serif / Geist", nav: "Scents · Story · Cart" },
+  { k: /coffee|cafe|café|roast|قهوة/i, type: "Coffee roaster", names: ["Halftone", "Grey Mill", "Ember & Ash", "Dry Process"], heads: ["Roasted this morning.", "Beans with a passport.", "Brew slower."], cols: [["Single Origin", "Rotating monthly lots"], ["Subscription", "Fresh beans every 2 weeks"], ["Wholesale", "For cafés and offices"]], pal: ["#141210", "#e9e4dc"], font: "Fraunces / Geist", nav: "Shop · Subscribe · Visit" },
+  { k: /gym|fitness|training|coach|pilates|yoga/i, type: "Fitness studio", names: ["Iron Hour", "Tempo", "Bodyform", "Forty Five"], heads: ["45 minutes. Done.", "Stronger before standup.", "Train like it's a meeting."], cols: [["Memberships", "Unlimited classes from $149"], ["1:1 Coaching", "Programmed around your calendar"], ["First Week Free", "Book in two taps"]], pal: ["#0a0a0a", "#f2f2f2"], font: "Geist Black / Geist Mono", nav: "Classes · Coaches · Join" },
+  { k: /course|teach|learn|academy|school|marketer|automat/i, type: "Online course", names: ["Autopilot", "Leverage Lab", "Systems Club", "Ten-X"], heads: ["Do the work once.", "Automate the boring half.", "Learn it this weekend."], cols: [["Curriculum", "12 lessons, 6 hours"], ["Templates", "40 ready-made workflows"], ["Community", "Weekly live Q&A"]], pal: ["#111113", "#f4f4f2"], font: "Geist / Geist Mono", nav: "Lessons · Reviews · Enroll" },
+  { k: /photo|studio|portfolio|design|architect|artist|film/i, type: "Creative portfolio", names: ["Long Exposure", "Concrete Light", "Plate", "Grain"], heads: ["Buildings, in silence.", "Light, held still.", "Every line on purpose."], cols: [["Selected Work", "Forty projects, 2018–now"], ["Prints", "Archival, signed, numbered"], ["Commissions", "Booking Q3 onward"]], pal: ["#0e0e0e", "#ebebeb"], font: "Instrument Serif / Geist Mono", nav: "Work · Prints · Contact" },
+  { k: /real estate|property|villa|apartment|realtor|عقار/i, type: "Real estate agency", names: ["Keystone", "Parallel", "Stoneline", "Ninth Floor"], heads: ["Addresses worth keeping.", "Above the skyline.", "Private listings only."], cols: [["Listings", "Off-market and exclusive"], ["Valuation", "Instant estimate, 60 seconds"], ["Concierge", "Viewings arranged for you"]], pal: ["#0c0c0d", "#ecebe8"], font: "Instrument Serif / Geist", nav: "Listings · Sell · Contact" },
+  { k: /food|restaurant|kitchen|burger|pizza|bakery|مطعم/i, type: "Restaurant", names: ["Charcoal", "Open Flame", "Salt & Smoke", "Table Nine"], heads: ["Fire, salt, time.", "Book the counter.", "One menu. Done right."], cols: [["Menu", "Changes with the season"], ["Reservations", "Tables released at 9am"], ["Private Dining", "Up to 18 guests"]], pal: ["#100f0e", "#efebe5"], font: "Fraunces / Geist", nav: "Menu · Book · Find us" }
+];
+const GENERIC = { type: "Modern brand", names: ["Northline", "Slate", "Common Ground", "Blank Co."], heads: ["Made for the few.", "Less, but better.", "Start here."], cols: [["Products", "Our core range"], ["About", "Why we exist"], ["Contact", "Replies within a day"]], pal: ["#0b0b0b", "#f0f0ee"], font: "Geist / Instrument Serif", nav: "Shop · About · Contact" };
+
+const pick = a => a[Math.floor(Math.random() * a.length)];
+let busy = false;
+async function generate(text) {
+  if (busy) return; busy = true;
+  const kind = KINDS.find(x => x.k.test(text)) || GENERIC;
+  const city = (text.match(/\bin ([A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)?)/) || [])[1];
+  const name = pick(kind.names), head = pick(kind.heads);
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const log = $("#log"), t0 = performance.now();
+  log.innerHTML = ""; $("#go").disabled = true;
+  const say = (s, ok) => { const d = document.createElement("div"); d.textContent = s; if (ok) d.className = "ok"; log.append(d); };
+  const wait = ms => new Promise(r => setTimeout(r, reduce ? 0 : ms));
+  const tick = setInterval(() => $("#timer").textContent = ((performance.now() - t0) / 1000).toFixed(2) + "s", 40);
+
+  say(`Reading intent → ${kind.type}${city ? " · " + city : ""}`); await wait(420);
+  say(`Naming brand → ${name}`); await wait(380);
+  say(`Writing copy, layout, 3D scene`); await wait(480);
+
+  const site = $("#site");
+  site.style.setProperty("--pal-bg", kind.pal[0]); site.style.setProperty("--pal-fg", kind.pal[1]);
+  $("#sName").textContent = name; $("#sNav").textContent = kind.nav;
+  $("#url").textContent = `${slug}.monolith.site`;
+  $("#sSub").textContent = `${kind.type}${city ? " in " + city : ""}. ${text.length > 110 ? text.slice(0, 110) + "…" : text}`;
+  $("#sCols").innerHTML = kind.cols.map(([b, s]) => `<div><b>${b}</b><span>${s}</span></div>`).join("");
+  const h = $("#sHead"); h.innerHTML = '<span class="cur"></span>';
+  for (const ch of head) { h.insertBefore(document.createTextNode(ch), h.lastChild); await wait(38); }
+  for (const d of $("#sCols").children) { d.classList.add("in"); await wait(140); }
+  $("#sw").innerHTML = [kind.pal[0], "#2a2a2c", "#8b8b90", kind.pal[1]].map(c => `<i style="background:${c}"></i>`).join("");
+  $("#sType").textContent = "Type · " + kind.font;
+  $("#sScore").textContent = "Conversion score · " + (88 + Math.floor(Math.random() * 10)) + "/100";
+  say(`Checkout wired · deployed to ${slug}.monolith.site`, true);
+  clearInterval(tick); $("#timer").textContent = "Built in " + ((performance.now() - t0) / 1000).toFixed(2) + "s";
+  $("#go").disabled = false; busy = false;
+  last = { kind, name, head, city, slug, text };
+  $("#openFull").disabled = false;
+}
+let last = null;
+function openFull() {
+  if (!last) return;
+  const { kind, name, head, city, slug } = last, full = $("#full");
+  full.style.setProperty("--pal-bg", kind.pal[0]); full.style.setProperty("--pal-fg", kind.pal[1]);
+  full.innerHTML = `<div class="in">
+    <header><span>${name}</span><span style="opacity:.55;letter-spacing:.1em">${kind.nav}</span><button class="x" id="closeFull" type="button">Close ✕</button></header>
+    <div style="display:grid;gap:40px"><h2>${head}</h2>
+      <div class="lede"><p>${kind.type}${city ? " in " + city : ""}. ${kind.cols[0][1]}, ${kind.cols[1][1].toLowerCase()}.</p><button class="shop" type="button">${kind.nav.split(" · ")[0]} now →</button></div></div>
+    <div class="g">${kind.cols.map(([b, s], i) => `<div><i>0${i + 1}</i><div><b>${b}</b><br><span>${s}</span></div></div>`).join("")}</div>
+    <div class="ft"><span>${slug}.monolith.site</span><span>Generated with Monolith · Made by Nourah Aleissa</span></div>
+  </div>`;
+  full.hidden = false; document.body.style.overflow = "hidden";
+  $("#closeFull").focus();
+  $("#closeFull").onclick = closeFull;
+}
+function closeFull() { $("#full").hidden = true; document.body.style.overflow = ""; $("#openFull").focus(); }
+$("#openFull").addEventListener("click", openFull);
+addEventListener("keydown", e => { if (e.key === "Escape" && !$("#full").hidden) closeFull(); });
+$("#genForm").addEventListener("submit", e => { e.preventDefault(); generate($("#idea").value.trim() || $("#idea").placeholder); });
+$("#examples").addEventListener("click", e => { if (e.target.tagName === "BUTTON") { $("#idea").value = e.target.textContent; generate(e.target.textContent); } });
+
+/* ===== Particle field: morphs between shapes as you scroll ===== */
+let morphTo = () => {};
+(function () {
+  if (!window.THREE) return;
+  const canvas = $("#field");
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(40, 1, .1, 100);
+  camera.position.z = 11;
+  const N = innerWidth < 700 ? 7000 : 14000;
+
+  const shapes = [];
+  const rnd = () => Math.random() * 2 - 1;
+  // 0 sphere
+  shapes.push(i => { const u = Math.random(), v = Math.random(), th = 2 * Math.PI * u, ph = Math.acos(2 * v - 1), r = 3 + Math.random() * .05; return [r * Math.sin(ph) * Math.cos(th), r * Math.sin(ph) * Math.sin(th), r * Math.cos(ph)]; });
+  // 1 monolith (tall slab surface)
+  shapes.push(() => { const d = [1.3, 3.6, .35], f = Math.floor(Math.random() * 3), p = [rnd() * d[0], rnd() * d[1], rnd() * d[2]]; p[f] = Math.sign(rnd()) * d[f]; return p; });
+  // 2 torus knot
+  shapes.push(() => { const t = Math.random() * Math.PI * 2, p = 2, q = 3, r = 2 + .9 * Math.cos(q * t), j = .22; return [r * Math.cos(p * t) + rnd() * j, r * Math.sin(p * t) + rnd() * j, .9 * Math.sin(q * t) * 1.4 + rnd() * j]; });
+  // 3 wave plane
+  shapes.push(() => { const x = rnd() * 7, z = rnd() * 4; return [x, Math.sin(x * 1.2) * .5 + Math.cos(z * 1.6) * .4 - 1.2, z]; });
+  // 4 ring
+  shapes.push(() => { const t = Math.random() * Math.PI * 2, r = 3.4 + rnd() * .35; return [r * Math.cos(t), rnd() * .15, r * Math.sin(t)]; });
+
+  const targets = shapes.map(fn => { const a = new Float32Array(N * 3); for (let i = 0; i < N; i++) { const p = fn(i); a.set(p, i * 3); } return a; });
+  const pos = new Float32Array(N * 3);
+  for (let i = 0; i < N * 3; i++) pos[i] = rnd() * 12;
+  const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+
+  const tex = (() => { const c = document.createElement("canvas"); c.width = c.height = 64; const g = c.getContext("2d"), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(.4, "rgba(255,255,255,.5)"); gr.addColorStop(1, "rgba(255,255,255,0)"); g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(c); })();
+  const mat = new THREE.PointsMaterial({ size: .05, map: tex, transparent: true, depthWrite: false, color: 0xe8e8e6, opacity: .85, blending: THREE.AdditiveBlending });
+  const pts = new THREE.Points(geo, mat); scene.add(pts);
+
+  let current = 0, speeds = new Float32Array(N);
+  for (let i = 0; i < N; i++) speeds[i] = .02 + Math.random() * .05;
+  morphTo = idx => { current = idx; };
+
+  const sections = [["#top", 0], ["#build", 1], ["#features", 2], ["#pricing", 3], ["#faq", 4], ["#join", 0]];
+  const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) current = +en.target.dataset.shape; }), { rootMargin: "-45% 0px -45% 0px" });
+  sections.forEach(([s, i]) => { const el = $(s); if (el) { el.dataset.shape = i; io.observe(el); } });
+
+  let mx = 0, my = 0;
+  addEventListener("pointermove", e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; });
+  function size() {
+    const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+    pts.position.x = w > 900 ? 3 : 0; pts.scale.setScalar(w > 900 ? 1 : .7);
+  }
+  addEventListener("resize", size); size();
+
+  if (reduce) { pos.set(targets[0]); geo.attributes.position.needsUpdate = true; renderer.render(scene, camera); return; }
+  const clock = new THREE.Clock(), mv = new THREE.Vector3(), R2 = 1.6;
+  let hasPointer = false;
+  addEventListener("pointermove", () => hasPointer = true, { once: true });
+  (function loop() {
+    const t = clock.getElapsedTime(), tg = targets[current];
+    // Cursor position on the z=0 plane, in the particle cloud's own space
+    mv.set(mx * 2, -my * 2, .5).unproject(camera).sub(camera.position).normalize();
+    mv.multiplyScalar(-camera.position.z / mv.z).add(camera.position);
+    pts.updateMatrixWorld(); pts.worldToLocal(mv);
+    for (let i = 0; i < N; i++) {
+      const s = speeds[i], j = i * 3;
+      pos[j] += (tg[j] - pos[j]) * s; pos[j + 1] += (tg[j + 1] - pos[j + 1]) * s; pos[j + 2] += (tg[j + 2] - pos[j + 2]) * s;
+      if (hasPointer) { const dx = pos[j] - mv.x, dy = pos[j + 1] - mv.y, d2 = dx * dx + dy * dy; if (d2 < R2) { const f = (R2 - d2) / R2 * .35; pos[j] += dx * f; pos[j + 1] += dy * f; } }
+    }
+    geo.attributes.position.needsUpdate = true;
+    pts.rotation.y = t * .08 + mx * .5;
+    pts.rotation.x = Math.sin(t * .2) * .1 + my * .3;
+    renderer.render(scene, camera);
+    requestAnimationFrame(loop);
+  })();
+})();
+
+// Run the generator once so the demo opens filled in
+setTimeout(() => generate($("#idea").value), 900);
+</script>
+
+</body>
+</html>
